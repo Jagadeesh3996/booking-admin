@@ -188,7 +188,7 @@ const NavBar = () => {
                                 :
                                 <img className="logo-img" src={logo2} alt="logo" />
                             }
-                            {navActive && <span className="logo-name">Livin Interiors</span>}
+                            {navActive && <span className="logo-name">Admin Panel</span>}
                         </div>
 
                         <div className="menu-list">

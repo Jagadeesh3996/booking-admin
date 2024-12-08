@@ -24,7 +24,7 @@ const Home = () =>{
         <ToastContainer />
         <div id="cbody" className="cbody">
             <div className="concard">
-                <h1 className="p-4">Welcome to Livin Interiors</h1>
+                <h1 className="p-4">Welcome to Admin Panel</h1>
             </div>
         </div>
     </>);
