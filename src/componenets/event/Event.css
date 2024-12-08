@@ -1,0 +1,250 @@
+
+.error-message {
+    color: red;
+    font-size: 12px;
+    margin: 0;
+  }
+.custom-w-100{
+    width: 100%;
+}
+  .input-group.error input, .input-group.error span, .input-group.error select{
+    border-color:red;
+  }
+.event-head {
+    color: #617288;
+    border-bottom: 1px solid #ccced1 ;
+    padding: 20px;
+}
+
+.event-head{
+    display: flex;
+    justify-content: space-between;
+}
+.event-head a{
+    font-size: 14px;
+    color: #229da7;
+}
+
+.event-head button{
+    border-radius: 50px;
+}
+
+.event-head .btn:disabled{
+    color: #ccced1;
+    border: 1px solid #ccced1;
+}
+
+.event-body{
+    margin-top: 20px;
+}
+.create-btn-custom{
+    color: #229da7;
+    border: #229da7 1px solid;
+}
+.create-btn-custom:hover{
+    background-color: #229da7;
+    border: #229da7 1px solid;
+
+}
+
+
+@media screen and (max-width:728px) {
+    .event-head{
+        flex-direction: column;
+    }
+
+    .event-head button{
+       margin-top: 20px;
+    }
+    .event-head a{
+        font-size: 12px;
+    }
+}
+
+@media screen and (max-width:310px) {
+   .booking-url{
+    display: none;
+   }
+}
+
+
+
+
+
+.form-container{
+    max-width: 800px;
+    margin: auto;
+    background-color: #fbfcfd;
+    box-shadow: 0 1px 8px 0 #00000014;
+    padding: 20px;
+    transition-duration: .5s;
+}
+.form-container-head{
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+.event-heading{
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.event-form-button{
+    width: 50%;
+    margin-left: auto;
+    display: block;
+}
+
+.time-stamp-spacing{
+    /* width: 35%; */
+    padding: 10px 5px;
+}
+
+.btn-spacing{
+    /* width: 15%; */
+}
+
+@media screen and (max-width:728px) {
+    .event-form-button{
+        width: 100%;
+        margin-left: auto;
+    }
+}
+
+
+
+
+/* events */
+
+
+.event-section{
+    padding: 20px;
+}
+
+.events-container{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+
+}
+
+.event-card{
+    margin: 20px;
+    width: 400px;
+    max-width: 400px;
+    padding: 10px;
+    border-radius: 4px;
+    border-top: 6px solid #56b4bb;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    position: relative;
+
+}
+.event-card:hover{
+    transition-duration: .2s;
+    top: -2px;
+    box-shadow: 0 2px 12px 0 rgb(0 0 0 / 15%);
+}
+
+.event-card .card-header{
+    background-color: #ffffff;
+    border-bottom: none;
+}
+
+.dropdown-menu-layer {
+    position: absolute;
+    top: 100%; /* Position the dropdown below the button */
+    right: 0;
+    z-index: 1050;
+    background: white;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    min-width: 150px;
+    padding: 8px 0;
+  }
+  
+  .dropdown-menu-layer .dropdown-item {
+    padding: 8px 12px;
+    font-size: 14px;
+    cursor: pointer;
+  }
+  
+  .dropdown-menu-layer .dropdown-item:hover {
+    background-color: #f8f9fa;
+  }
+  
+
+  .card-setting-btn:hover{
+    background-color: #56b4bb;
+    color: #f8f9fa;
+
+  }
+
+  .card-footer-custom{
+    display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+  }
+  .card-footer-custom a{
+  color: #229da7 !important;
+  }
+  .btn-view{
+    border-radius: 50px;
+    display: flex;
+        align-items: center;
+  }
+
+  .btn-view i{
+    padding-left: 10px;
+  }
+
+
+
+  @media screen and (max-width:768px) {
+
+    .event-card{
+        margin: 20px 0px;
+    }
+    .event-section{
+        padding: 20px 5px;
+    }
+    
+  }
+
+  @media screen and (max-width:400px) {
+
+    .card-footer-custom{
+        display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+      }
+      .btn-view{
+        margin-top: 20px;
+      }
+  }
+
+
+
+
+  .custom-card-body .table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  .custom-card-body .table th, .custom-card-body .table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: center;
+  }
+  
+  .custom-card-body .table th {
+    background-color: #f8f9fa;
+    font-weight: bold;
+  }
+
+
+  input[type="time"]::-webkit-calendar-picker-indicator {
+    filter: invert(100%) brightness(0%);
+    cursor: pointer;
+  }
