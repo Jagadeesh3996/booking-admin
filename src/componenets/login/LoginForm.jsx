@@ -85,7 +85,7 @@ const LoginForm = () => {
     
     // Email validation
     if (!formValues.email) {
-        newErrors.email = 'email is required';
+        newErrors.email = 'Email is required';
     } else if (!/\S+@\S+\.\S+/.test(formValues.email)) {
         newErrors.email = 'Please enter a valid email';
     }
@@ -94,11 +94,7 @@ const LoginForm = () => {
     if (!formValues.password) {
         newErrors.password = 'Password is required';
     } 
-    
-    // else if (formValues.password.length < 6) {
-    //     newErrors.password = 'Password must be at least 6 characters';
-    // }
-
+  
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0; // Returns true if no errors
   };
@@ -151,11 +147,14 @@ const LoginForm = () => {
               <input type="checkbox" id="showPassword" checked={showPassword} onChange={()=>setShowPassword(!showPassword)}/>
               <label htmlFor="showPassword" className="ms-2">Show Password</label>
             </div>
-            <div className="text-center"><button type="submit" className="btn btn-color px-5 mb-5 w-100" disabled={loading}> {loading ? 'Loading...' : 'Login'} </button></div>
-            {/* <div id="emailHelp" className="form-text text-center mb-5 text-dark">Not
-              Registered? <a href="#" className="text-dark fw-bold"> Create an
-                Account</a>
-            </div> */}
+            <div className="text-center"><button type="submit" className="btn btn-color px-5 mb-3 w-100" disabled={loading}> {loading ? 'Loading...' : 'Login'} </button></div>
+            <div className="form-text text-center mb-1 text-light">
+              <a href="#" className="text-light fw-bold">Forgot Password ?</a>
+            </div>
+            <div className="form-text text-center text-light">
+              Not Registered ?
+              <a href="/signup" className="text-light fw-bold"> Create an Account</a>
+            </div>
           </form>
         </div>
       </div>    

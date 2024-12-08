@@ -1,1 +1,10 @@
-<svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 40"><defs><style>.cls-1{fill:#fff;}.cls-2{fill:#229da7;}.cls-3{fill:#faa731;}</style></defs><circle class="cls-1" cx="20" cy="20" r="19.53"/><polygon class="cls-2" points="28.83 28.83 7.13 28.83 20 6.53 21.6 9.3 11.76 26.33 27.38 26.33 28.83 28.83"/><polygon class="cls-3" points="22.33 10.57 20.91 13.04 22.25 15.36 23.67 12.89 22.33 10.57"/><polygon class="cls-3" points="22.56 15.89 30.03 28.83 32.87 28.83 23.98 13.42 22.56 15.89"/></svg>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Uploaded to: SVG Repo, www.svgrepo.com, Transformed by: SVG Repo Mixer Tools -->
+<svg width="800px" height="800px" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true" role="img" class="iconify iconify--emojione" preserveAspectRatio="xMidYMid meet" fill="#01663e" stroke="#01663e">
+<g id="SVGRepo_bgCarrier" stroke-width="0"/>
+<g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"/>
+<g id="SVGRepo_iconCarrier">
+<circle cx="32" cy="32" r="30" fill="#fff"/>
+<path d="M28.6 35.2v.7c0 2.2.3 3.8.7 4.7c.4.9 1.3 1.4 2.7 1.4c1.3 0 2.2-.5 2.7-1.5c.3-.6.4-1.6.4-3V17.1h6.1v20.2c0 2.5-.4 4.4-1.3 5.9c-1.4 2.4-4 3.7-7.6 3.7s-6.2-1-7.4-3c-1.3-2-1.9-4.7-1.9-8.1v-.7h5.6z" fill="#fffffffff"/>
+</g>
+</svg>
