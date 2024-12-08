@@ -31,12 +31,12 @@ jobs:
       - name: Build the React app
         run: CI=false npm run build
 
-      - name: Deploy to Hostinger via FTP
-        uses: SamKirkland/FTP-Deploy-Action@4.3.1
-        with:
-          server: ${{ secrets.FTP_HOST }}
-          username: ${{ secrets.FTP_USERNAME }}
-          password: ${{ secrets.FTP_PASSWORD }}
-          port: ${{ secrets.FTP_PORT }}
-          local-dir: ./build/
-          server-dir: /public_html/booking/
+      # - name: Deploy to Hostinger via FTP
+      #   uses: SamKirkland/FTP-Deploy-Action@4.3.1
+      #   with:
+      #     server: ${{ secrets.FTP_HOST }}
+      #     username: ${{ secrets.FTP_USERNAME }}
+      #     password: ${{ secrets.FTP_PASSWORD }}
+      #     port: ${{ secrets.FTP_PORT }}
+      #     local-dir: ./build/
+      #     server-dir: /public_html/booking/
