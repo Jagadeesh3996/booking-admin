@@ -45,11 +45,11 @@ const LoginForm = () => {
           try{
             const userData = await getUser(response.token);
             let userdetails = {
-              UserID: userData?.data?.user.id,
-              UserName: userData?.data?.user.username,
-              UserRole: userData?.data?.user.role,
-              UserEmail: userData?.data?.user.email,
-              UserTeamId: userData?.data?.user.team_id
+              UserID: userData?.data?.id,
+              UserName: userData?.data?.name,
+              UserRole: userData?.data?.role || "Super Admin",
+              UserEmail: userData?.data?.email,
+              UserTeamId: userData?.data?.team_id || ""
             }
             let isLogin = 'yes';
             dispatch(setUserDetails({ userdetails, isLogin }));

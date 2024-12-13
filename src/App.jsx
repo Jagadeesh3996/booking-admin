@@ -78,7 +78,7 @@ function App() {
             const userdetails = {
               UserID: response?.data?.id,
               UserName: response?.data?.name,
-              UserRole: response?.data?.role || "",
+              UserRole: response?.data?.role || "Super Admin",
               UserEmail: response?.data?.email,
               UserTeamId: response?.data?.team_id || ""
             }
