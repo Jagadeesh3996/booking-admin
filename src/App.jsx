@@ -76,11 +76,11 @@ function App() {
         .then(response=>{
           if (response.status){
             const userdetails = {
-              UserID: response?.data?.user.id,
-              UserName: response?.data?.user.username,
-              UserRole: response?.data?.user.role,
-              UserEmail: response?.data?.user.email,
-              UserTeamId: response?.data?.user.team_id
+              UserID: response?.data?.id,
+              UserName: response?.data?.name,
+              UserRole: response?.data?.role || "",
+              UserEmail: response?.data?.email,
+              UserTeamId: response?.data?.team_id || ""
             }
             const isLogin = 'yes';
             dispatch(setUserDetails({ userdetails, isLogin }));

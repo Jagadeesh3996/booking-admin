@@ -5,7 +5,7 @@ import axios from "axios";
 // user API
 export const loginCheck = async (email, password) => {
   try {
-    const response = await axios.post(url + "/login", { email, password });
+    const response = await axios.post(url + "/user/user_login", { userEmail: email, userPassword: password });
     return response.data;
   } catch (error) {
     throw new Error(`Failed to send data: ${error.message}`);
@@ -14,7 +14,7 @@ export const loginCheck = async (email, password) => {
 
 export const getUser = async (token) => {
   try {
-    const response = await axios.get(url + "/getUser", {
+    const response = await axios.get(url + "/user/getuser", {
       headers: {
         Authorization: `Bearer ${token}`,
       },
