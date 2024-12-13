@@ -14,7 +14,7 @@ export const loginCheck = async (email, password) => {
 
 export const getUser = async (token) => {
   try {
-    const response = await axios.get(url + "/user/getuser", {
+    const response = await axios.post(url + "/user/getuser", {
       headers: {
         Authorization: `Bearer ${token}`,
       },
