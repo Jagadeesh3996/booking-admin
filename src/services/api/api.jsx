@@ -2,10 +2,19 @@
 import { url } from "./baseurl";
 import axios from "axios";
 
-// user API
+// users API
 export const loginCheck = async (email, password) => {
   try {
-    const response = await axios.post(url + "/user/user_login", { email, password });
+    const response = await axios.post(url + "/user/user-login", { email, password });
+    return response.data;
+  } catch (error) {
+    throw new Error(`Failed to send data: ${error.message}`);
+  }
+};
+
+export const userSignup = async (data) => {
+  try {
+    const response = await axios.post(url + "/user/user-signup", { data });
     return response.data;
   } catch (error) {
     throw new Error(`Failed to send data: ${error.message}`);
@@ -14,7 +23,7 @@ export const loginCheck = async (email, password) => {
 
 export const getUser = async (token) => {
   try {
-    const response = await axios.post(url + "/user/getuser", {}, {
+    const response = await axios.post(url + "/user/get-user", {}, {
       headers: {
         Authorization: `Bearer ${token}`,
       },

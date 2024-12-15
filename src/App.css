@@ -11,7 +11,7 @@
     --white: #fff;
     --black: #000;
     --active-color: #f8a735;
-    --logo-color: #f8a735;
+    --logo-color: #00653e;
 }
 [data-theme='light'] {
     --primary-color: #fff !important;

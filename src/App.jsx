@@ -15,7 +15,8 @@ import { useState, useEffect } from 'react';
 import { getUser } from './services/api/api';
 import { setUserDetails } from "./redux/slice/user";
 
-import Login from "./pages/Login"
+import Login from "./pages/Login";
+import Signup from './pages/Signup';
 import Error from './pages/Error';
 import Home from './pages/Home';
 import Events from './pages/Events';
@@ -33,7 +34,7 @@ function App() {
     theme === "dark" ? "mdc-dark-indigo" : "mira"
   );
   const dispatch = useDispatch();
-  const key = "my-project-key";
+  const key = "my-booking-user-key";
   const users = useSelector((state) => state.user);    
   const [loading, setLoading] = useState(true);
   const sessionId = localStorage.getItem('sessionId'); 
@@ -136,6 +137,7 @@ function App() {
     <Router>
       <Routes>
         <Route path="/login" element={<Login />} />
+        <Route path="/signup" element={<Signup />} />
         <Route path="*" element={<Error />} />
 
         {/* <Route path="/" element={<Home />} />
