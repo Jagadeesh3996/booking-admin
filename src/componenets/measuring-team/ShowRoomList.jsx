@@ -13,21 +13,12 @@ import { InputText } from "primereact/inputtext";
 import { classNames } from "primereact/utils";
 import { Dialog } from "primereact/dialog";
 
-// import "primereact/resources/themes/mdc-dark-indigo/theme.css";
-// import 'primereact/resources/themes/mira/theme.css';
-import "primereact/resources/primereact.min.css";
-import "primeicons/primeicons.css";
-
 const ShowRoomList = () => {
   let emptyProduct = {
     id: null,
     showroom_name: "",
   };
 
-  const theme = useSelector((state) => state.theme.value);
-  const [themeName, setthemeName] = useState(
-    theme === "dark" ? "mdc-dark-indigo" : "mira"
-  );
   const [products, setProducts] = useState();
   const [globalFilter, setGlobalFilter] = useState(null);
   const [selectedProducts, setSelectedProducts] = useState(null);
@@ -38,22 +29,6 @@ const ShowRoomList = () => {
   const [submitted, setSubmitted] = useState(false);
   const [loading, setloading] = useState(false);
   const dt = useRef(null);
-
-  // theme change
-  useEffect(() => {
-    setthemeName(theme === "dark" ? "mdc-dark-indigo" : "mira");
-  }, [theme]);
-  useEffect(() => {
-    const existingTheme = document.getElementById("theme-style");
-    if (existingTheme) {
-      existingTheme.remove();
-    }
-    const link = document.createElement("link");
-    link.id = "theme-style";
-    link.rel = "stylesheet";
-    link.href = `https://unpkg.com/primereact/resources/themes/${themeName}/theme.css`;
-    document.head.appendChild(link);
-  }, [themeName]);
 
   //   get showrooms data
   useEffect(() => {    
@@ -115,7 +90,7 @@ const ShowRoomList = () => {
       }
       return item.showroom_name.toLowerCase() === showroom_name.toLowerCase() ;
     });
-    if (!product.id && !showroom_name) {
+    if (!showroom_name) {
       return;
     }
     if (exist) {

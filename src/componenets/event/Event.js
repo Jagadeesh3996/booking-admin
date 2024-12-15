@@ -137,7 +137,7 @@ export default function Event() {
 
       <div className="event-head">
         <div>
-          <div>Livin Interiors</div>
+          <div>Slot Booking</div>
           <a href="https://bookingform.bharatmakers.com/" target="_blank" className="booking-url">
             https://bookingform.bharatmakers.com/
           </a>

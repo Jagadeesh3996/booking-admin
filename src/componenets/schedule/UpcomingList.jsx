@@ -3,7 +3,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
 import { ToastContainer, toast } from "react-toastify";
 import { Tooltip } from 'react-tooltip';
-import { getUpcomingSchedule, deleteSchedule } from "../../services/api/api";
+import { getUpcomingSchedule, deleteSchedule, editScheduleDetails } from "../../services/api/api";
 
 import { DataTable } from "primereact/datatable";
 import { Column } from "primereact/column";
@@ -12,45 +12,33 @@ import { Button } from "primereact/button";
 import { IconField } from "primereact/iconfield";
 import { InputIcon } from "primereact/inputicon";
 import { InputText } from "primereact/inputtext";
+import { classNames } from "primereact/utils";
 import { Dialog } from "primereact/dialog";
 
-// import "primereact/resources/themes/mdc-dark-indigo/theme.css";
-// import 'primereact/resources/themes/mira/theme.css';
-import "primereact/resources/primereact.min.css";
-import "primeicons/primeicons.css";
-
 const UpcomingList = () => {
+  let emptyProduct = {
+    id: null,
+    designer_name : "",
+    client_name : "",
+    client_id : "",
+    address : "",
+    location : "",
+  };
   const role = useSelector((state) => state.user.userDetails.UserRole);
   const team_id = useSelector((state) => state.user.userDetails.UserTeamId);
-  const theme = useSelector((state) => state.theme.value);
-  const [themeName, setthemeName] = useState(
-    theme === "dark" ? "mdc-dark-indigo" : "mira"
-  );
   const [products, setProducts] = useState();
   const [globalFilter, setGlobalFilter] = useState(null);
   const [selectedProducts, setSelectedProducts] = useState(null);
-  const [product, setProduct] = useState({});
+  const [product, setProduct] = useState({emptyProduct});
+  const [viewDialog, setViewDialog] = useState(false);
   const [productDialog, setProductDialog] = useState(false);
   const [deleteProductDialog, setDeleteProductDialog] = useState(false);
   const [deleteProductsDialog, setDeleteProductsDialog] = useState(false);
+  const [submitted, setSubmitted] = useState(false);
   const [loading, setloading] = useState(false);
+  const [validurl, setValidurl] = useState(false);
   const dt = useRef(null);
 
-  // theme change
-  useEffect(() => {
-    setthemeName(theme === "dark" ? "mdc-dark-indigo" : "mira");
-  }, [theme]);
-  useEffect(() => {
-    const existingTheme = document.getElementById("theme-style");
-    if (existingTheme) {
-      existingTheme.remove();
-    }
-    const link = document.createElement("link");
-    link.id = "theme-style";
-    link.rel = "stylesheet";
-    link.href = `https://unpkg.com/primereact/resources/themes/${themeName}/theme.css`;
-    document.head.appendChild(link);
-  }, [themeName]);
 
   //   get schedule data
   useEffect(() => {
@@ -75,25 +63,114 @@ const UpcomingList = () => {
     }
   }, [productDialog, team_id]);
 
+  //open edit popup
+  const editProduct = (product) => {
+    setProduct({ ...product });
+    setProductDialog(true);
+  };
+
   // hide popup
   const hideDialog = () => {
+    setViewDialog(false);
     setProductDialog(false);
   };
 
   //open view popup
   const viewProduct = (product) => {
     setProduct({ ...product });
-    setProductDialog(true);
+    setViewDialog(true);
   };
 
-  // delete one product
+  // input
+  const onInputChange = (e, name) => {
+    if (name === "location") setValidurl(false);
+    const val = (e.target && e.target.value) || "";
+    let _product = { ...product };
+    _product[`${name}`] = val.trimStart();
+    setProduct(_product);
+  };
+  
+  // trim white space in object
+  const trimObjectValues = (obj) => {
+    const trimmedObject = {};
+    for (const key in obj) {
+      (typeof obj[key] === "string") ? trimmedObject[key] = obj[key].trim() : trimmedObject[key] = obj[key];
+    }
+    return trimmedObject;
+  };
+
+  // edit Item
+  const editItem = async () => {
+    setSubmitted(true);
+    let _product = trimObjectValues(product);
+    // console.log(_product);
+    
+    if (!_product.id || !_product.designer_name || !_product.client_name || !_product.client_id || !_product.address || !_product.location) {
+      return;
+    }
+    if (_product.location) {
+      try {
+        new URL(_product.location);
+        setValidurl(false);
+      } catch (e) {
+        setValidurl(true);
+        return;
+      }
+    }
+
+    // edit api
+    if (_product.id) {
+      let _products = [...products];
+      setloading(true);
+      const index = products.findIndex((item) => item.id === _product.id);
+      const response = await editScheduleDetails(_product);
+      if (response.status) {
+          _products[index] = _product;
+          toast.success(response.message, {
+              position: "top-right",
+              autoClose: 3000,
+          });
+      } else {
+          toast.warning(response.message, {
+              position: "top-right",
+              autoClose: 3000,
+          });
+      }
+      setSubmitted(false);
+      setloading(false);
+      setProducts(_products);
+      setProductDialog(false);
+      setProduct(emptyProduct);
+    }
+  };
+  
+  // delete one item
   const confirmDeleteProduct = (product) => {
     setProduct(product);
     setDeleteProductDialog(true);
   };
 
-  // close button
+  // Save and cancel button
   const productDialogFooter = (
+    <React.Fragment>
+      <Button
+        label="Close"
+        icon="pi pi-times"
+        className="me-2"
+        outlined
+        onClick={hideDialog}
+      />
+      <Button 
+        label="Save" 
+        icon="pi pi-check" 
+        disabled={loading}
+        onClick={editItem} 
+      />
+    </React.Fragment>
+  );
+
+  // Close button
+  const viewDialogFooter = (
     <React.Fragment>
       <Button
         label="Close"
@@ -189,7 +266,7 @@ const UpcomingList = () => {
     </div>
   );
 
-  // view, edit and delete button
+  // view, re-schedule, edit and delete button
   const actionBodyTemplate = (rowData) => {
     return (
       <React.Fragment>
@@ -201,27 +278,38 @@ const UpcomingList = () => {
               className="me-2 rounded-circle a-btn"
               style={{ fontSize: '15px' }}
               onClick={() => viewProduct(rowData)}
-              data-tooltip-id="abt1"
+              data-tooltip-id="action1"
               data-tooltip-content="View"
               data-tooltip-offset={10}
             />
-            <Tooltip id="abt1" className="tooltip" />
+            <Tooltip id="action1" className="tooltip" />
           { role !== "Member" && (<>
             <a 
               href={`https://bookingform.bharatmakers.com?id=${rowData.id}`}
               target="_blank"
             >
               <Button
+                icon="pi pi-sync"
+                outlined
+                className="me-2 rounded-circle"
+                style={{ fontSize: '15px' }}
+                data-tooltip-id="action2"
+                data-tooltip-content="Re-schedule"
+                data-tooltip-offset={10}  
+              />
+            </a>
+            <Tooltip id="action2" className="tooltip" />
+            <Button
                 icon="pi pi-pencil"
                 outlined
                 className="me-2 rounded-circle"
                 style={{ fontSize: '15px' }}
-                data-tooltip-id="abt1"
+                onClick={() => editProduct(rowData)}
+                data-tooltip-id="action3"
                 data-tooltip-content="Edit"
                 data-tooltip-offset={10}  
               />
-            </a>
-            <Tooltip id="abt1" className="tooltip" />
+            <Tooltip id="action3" className="tooltip" />
             <Button
               icon="pi pi-trash"
               outlined
@@ -229,11 +317,11 @@ const UpcomingList = () => {
               className="rounded-circle a-btn"
               style={{ fontSize: '15px' }}
               onClick={() => confirmDeleteProduct(rowData)}
-              data-tooltip-id="abt1"
+              data-tooltip-id="action4"
               data-tooltip-content="Delete"
               data-tooltip-offset={10}
             />
-            <Tooltip id="abt1" className="tooltip" />
+            <Tooltip id="action4" className="tooltip" />
           </>)}
         </div>
       </React.Fragment>
@@ -379,15 +467,15 @@ const UpcomingList = () => {
         </DataTable>
       </div>
 
-      {/* Show product dialog */}
+      {/* View product dialog */}
       <Dialog
-        visible={productDialog}
+        visible={viewDialog}
         style={{ width: "32rem" }}
         breakpoints={{ "960px": "75vw", "641px": "90vw" }}
         modal
         className="p-fluid"
         header="Booking Details"
-        footer={productDialogFooter}
+        footer={viewDialogFooter}
         onHide={hideDialog}
       >
         <hr />
@@ -404,6 +492,98 @@ const UpcomingList = () => {
           <p>Location : <b><a href={product.location} target="_blank">{product.location}</a></b></p>
         </div>
         <hr />
+      </Dialog>
+
+      {/* edit product dialog */}
+      <Dialog
+        visible={productDialog}
+        style={{ width: "32rem" }}
+        breakpoints={{ "960px": "75vw", "641px": "90vw" }}
+        modal
+        className="p-fluid"
+        header="Booking Details"
+        footer={productDialogFooter}
+        onHide={hideDialog}
+      >
+        <div className="field mb-3">
+          <label htmlFor="designer_name" className="font-bold">Designer Name *</label>
+          <InputText
+            id="designer_name"
+            value={product.designer_name}
+            onChange={(e) => onInputChange(e, "designer_name")}
+            required
+            className={classNames({
+              "p-invalid": submitted && !product.designer_name,
+            })}
+          />
+          {submitted && !product.designer_name.trim() && (
+            <small className="p-error">Designer Name is required.</small>
+          )}
+        </div>
+        <div className="field mb-3">
+          <label htmlFor="client_name" className="font-bold">Client Name *</label>
+          <InputText
+            id="client_name"
+            value={product.client_name}
+            onChange={(e) => onInputChange(e, "client_name")}
+            required
+            className={classNames({
+              "p-invalid": submitted && !product.client_name,
+            })}
+          />
+          {submitted && !product.client_name.trim() && (
+            <small className="p-error">Client Name  is required.</small>
+          )}
+        </div>
+        <div className="field mb-3">
+          <label htmlFor="client_id" className="font-bold">Client Id *</label>
+          <InputText
+            id="client_id"
+            value={product.client_id}
+            onChange={(e) => onInputChange(e, "client_id")}
+            required
+            className={classNames({
+              "p-invalid": submitted && !product.client_id,
+            })}
+          />
+          {submitted && !product.client_id.trim() && (
+            <small className="p-error">Client Id is required.</small>
+          )}
+        </div>
+        <div className="field mb-3">
+          <label htmlFor="address" className="font-bold">Address *</label>
+          <InputText
+            id="address"
+            value={product.address}
+            onChange={(e) => onInputChange(e, "address")}
+            required
+            className={classNames({
+              "p-invalid": submitted && !product.address,
+            })}
+          />
+          {submitted && !product.address.trim() && (
+            <small className="p-error">Address is required.</small>
+          )}
+        </div>
+        <div className="field mb-3">
+          <label htmlFor="location" className="font-bold">Location *</label>
+          <InputText
+            id="location"
+            type="url"
+            value={product.location}
+            onChange={(e) => onInputChange(e, "location")}
+            required
+            className={classNames({
+              "p-invalid": submitted && !product.location,
+            })}
+          />
+          {submitted && !product.location.trim() && (
+            <small className="p-error">Location is required.</small>
+          )}
+          {submitted && product.location && validurl && (
+            <small className="p-error">Invalid URL for Google Location.</small>
+          )}
+        </div>
       </Dialog>
 
       {/* delete single product dialog */}

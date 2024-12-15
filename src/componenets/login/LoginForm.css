@@ -1,5 +1,5 @@
 
-/* .btn-color{
+.btn-color{
     background-color: #00653e;
     color: #fff;
     
@@ -44,48 +44,14 @@
         width: 120px;
         object-fit: cover;
       }
-  } */
-
-
-
-.login-container{
-  height: 100vh;
-  position: fixed;
-  width: 100%;
-  background-color: var(--primary-color);
-}
-.login-wrapper{
-  width: 400px;
-  color: var(--white);
-  box-shadow: 0 0 5px var(--white);
-  border-radius: 15px;
-  background-color: rgba(0, 0, 0, 0.3);
-  animation: signdiv 1s linear;
-}
-@keyframes signdiv{
-  0%{
-      transform: rotateY(180deg);
-      opacity: 0.3;
   }
-}
-.btn-color{
-  background-color: #00653e;
-  color: var(--white);
-  font-weight: bold;
-}
-.btn-color:hover{
-  background-color: var(--logo-color);
-  color: var(--white);
-}
-.profile-image-pic{
-  height: 100px;
-  width: 100px;
-  object-fit: cover;
-}
-@media screen and (min-width: 768px) {
-  .profile-image-pic{
-      height: 120px;
-      width: 120px;
-      object-fit: cover;
-    }
-}
+  .form-password{
+    border-radius: 0.375rem;
+  }
+  .form-password .p-icon-field .p-password-input{
+    /* padding: 6px 24px 6px 12px; */
+    padding: 6px 0 6px 10px;
+  }
+  .form-password .p-icon-field > .p-input-icon {
+    margin-top: -12px;
+  }

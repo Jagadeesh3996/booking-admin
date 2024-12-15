@@ -5,7 +5,7 @@ import axios from "axios";
 // user API
 export const loginCheck = async (email, password) => {
   try {
-    const response = await axios.post(url + "/user/user_login", { userEmail: email, userPassword: password });
+    const response = await axios.post(url + "/user/user_login", { email, password });
     return response.data;
   } catch (error) {
     throw new Error(`Failed to send data: ${error.message}`);
@@ -14,7 +14,7 @@ export const loginCheck = async (email, password) => {
 
 export const getUser = async (token) => {
   try {
-    const response = await axios.post(url + "/user/getuser", {
+    const response = await axios.post(url + "/user/getuser", {}, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -112,6 +112,15 @@ export const getUpcomingSchedule = async (team) => {
 export const getFinishedSchedule = async (team) => {
   try {
     const response = await axios.post(url + "/schedule", {action : 'getFinishedSchedule', team});
+    return response.data;
+  } catch (error) {
+    throw new Error(`Failed to send data: ${error.message}`);
+  }
+};
+
+export const editScheduleDetails = async (data) => {
+  try {
+    const response = await axios.post(url + "/schedule", {action : 'editScheduleDetails', data});
     return response.data;
   } catch (error) {
     throw new Error(`Failed to send data: ${error.message}`);

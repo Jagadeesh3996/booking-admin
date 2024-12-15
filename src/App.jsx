@@ -4,6 +4,8 @@ import AES from 'crypto-js/aes';
 import Utf8 from 'crypto-js/enc-utf8';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
+import "primereact/resources/primereact.min.css";
+import "primeicons/primeicons.css";
 import './App.css';
 // import loadable from '@loadable/component';
 // import Loader from './componenets/loader/Loader';
@@ -26,7 +28,10 @@ import 'react-toastify/dist/ReactToastify.css';
 // const Home = loadable(() => import('./pages/Home'), { fallback: <Loader/> });
 
 function App() {
-
+  const theme = useSelector((state) => state.theme.value);
+  const [themeName, setthemeName] = useState(
+    theme === "dark" ? "mdc-dark-indigo" : "mira"
+  );
   const dispatch = useDispatch();
   const key = "my-project-key";
   const users = useSelector((state) => state.user);    
@@ -35,6 +40,22 @@ function App() {
   const [isLoggedIn,setIsLoggedIn] = useState(sessionId ? true : false);
   let inactivityTimeout;
 
+  // theme change
+  useEffect(() => {
+    setthemeName(theme === "dark" ? "mdc-dark-indigo" : "mira");
+  }, [theme]);
+  useEffect(() => {
+    const existingTheme = document.getElementById("theme-style");
+    if (existingTheme) {
+      existingTheme.remove();
+    }
+    const link = document.createElement("link");
+    link.id = "theme-style";
+    link.rel = "stylesheet";
+    link.href = `https://unpkg.com/primereact/resources/themes/${themeName}/theme.css`;
+    document.head.appendChild(link);
+  }, [themeName]);
+  
   // inactive logout
   const inactiveUser = () => {
     localStorage.clear();
@@ -47,7 +68,7 @@ function App() {
     clearTimeout(inactivityTimeout);
     inactivityTimeout = setTimeout(() => {
       inactiveUser();
-    }, 50 * 60 * 1000);   // 5 minutes
+    }, 5 * 60 * 1000);   // 5 minutes
   };
 
   // check user acivity
@@ -78,13 +99,13 @@ function App() {
             const userdetails = {
               UserID: response?.data?.id,
               UserName: response?.data?.name,
-              UserRole: response?.data?.role || "Super Admin",
+              UserRole: response?.data?.role,
               UserEmail: response?.data?.email,
-              UserTeamId: response?.data?.team_id || ""
+              UserTeamId: response?.data?.team_id
             }
             const isLogin = 'yes';
             dispatch(setUserDetails({ userdetails, isLogin }));
-            const new_token = AES.encrypt(response.new_token, key).toString();
+            const new_token = AES.encrypt(response.newToken, key).toString();
             localStorage.setItem('sessionId', new_token);  
           } else {
             localStorage.clear();

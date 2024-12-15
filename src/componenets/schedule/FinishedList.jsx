@@ -14,18 +14,9 @@ import { InputIcon } from "primereact/inputicon";
 import { InputText } from "primereact/inputtext";
 import { Dialog } from "primereact/dialog";
 
-// import "primereact/resources/themes/mdc-dark-indigo/theme.css";
-// import 'primereact/resources/themes/mira/theme.css';
-import "primereact/resources/primereact.min.css";
-import "primeicons/primeicons.css";
-
 const FinishedList = () => {
   const role = useSelector((state) => state.user.userDetails.UserRole);
   const team_id = useSelector((state) => state.user.userDetails.UserTeamId);
-  const theme = useSelector((state) => state.theme.value);
-  const [themeName, setthemeName] = useState(
-    theme === "dark" ? "mdc-dark-indigo" : "mira"
-  );
   const [products, setProducts] = useState();
   const [globalFilter, setGlobalFilter] = useState(null);
   const [selectedProducts, setSelectedProducts] = useState(null);
@@ -35,22 +26,6 @@ const FinishedList = () => {
   const [deleteProductsDialog, setDeleteProductsDialog] = useState(false);
   const [loading, setloading] = useState(false);
   const dt = useRef(null);
-
-  // theme change
-  useEffect(() => {
-    setthemeName(theme === "dark" ? "mdc-dark-indigo" : "mira");
-  }, [theme]);
-  useEffect(() => {
-    const existingTheme = document.getElementById("theme-style");
-    if (existingTheme) {
-      existingTheme.remove();
-    }
-    const link = document.createElement("link");
-    link.id = "theme-style";
-    link.rel = "stylesheet";
-    link.href = `https://unpkg.com/primereact/resources/themes/${themeName}/theme.css`;
-    document.head.appendChild(link);
-  }, [themeName]);
 
   //   get schedule data
   useEffect(() => {

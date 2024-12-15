@@ -14,11 +14,6 @@ import { classNames } from "primereact/utils";
 import { Dialog } from "primereact/dialog";
 import { Dropdown } from "primereact/dropdown";
 
-// import "primereact/resources/themes/mdc-dark-indigo/theme.css";
-// import 'primereact/resources/themes/mira/theme.css';
-import "primereact/resources/primereact.min.css";
-import "primeicons/primeicons.css";
-
 const TeamsList = () => {
   let emptyProduct = {
     id: null,
@@ -30,10 +25,6 @@ const TeamsList = () => {
     team_member_password : "",
   };
 
-  const theme = useSelector((state) => state.theme.value);
-  const [themeName, setthemeName] = useState(
-    theme === "dark" ? "mdc-dark-indigo" : "mira"
-  );
   const [showrooms, setShowrooms] = useState([]);
   const [products, setProducts] = useState();
   const [globalFilter, setGlobalFilter] = useState(null);
@@ -45,22 +36,6 @@ const TeamsList = () => {
   const [submitted, setSubmitted] = useState(false);
   const [loading, setloading] = useState(false);
   const dt = useRef(null);  
-
-  // theme change
-  useEffect(() => {
-    setthemeName(theme === "dark" ? "mdc-dark-indigo" : "mira");
-  }, [theme]);
-  useEffect(() => {
-    const existingTheme = document.getElementById("theme-style");
-    if (existingTheme) {
-      existingTheme.remove();
-    }
-    const link = document.createElement("link");
-    link.id = "theme-style";
-    link.rel = "stylesheet";
-    link.href = `https://unpkg.com/primereact/resources/themes/${themeName}/theme.css`;
-    document.head.appendChild(link);
-  }, [themeName]);
 
   //   get showrooms and teams data
   useEffect(() => {
@@ -139,7 +114,7 @@ const TeamsList = () => {
   const addItem = async () => {
     setSubmitted(true);
     let _product = trimObjectValues(product);
-    if (!_product.id && !_product.sr_id || !_product.team_name || !_product.team_manager_mail || !_product.team_manager_password || !_product.team_member_mail || !_product.team_member_password) {
+    if (!_product.sr_id || !_product.team_name || !_product.team_manager_mail || !_product.team_manager_password || !_product.team_member_mail || !_product.team_member_password) {
       return;
     }
     const name = products.find((item) => {
@@ -203,7 +178,7 @@ const TeamsList = () => {
       return;
     }
 
-    // add and edit api
+    // add and edit api's
     if (_product.team_name) {
       let _products = [...products];
       setloading(true);

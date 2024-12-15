@@ -31,8 +31,7 @@ const NavBar = () => {
 
     // theme toggle
     const toggleTheme = () => {
-        const currentTheme = document.body.getAttribute('data-theme');
-        if  (currentTheme === 'light') {
+        if  (theme === 'light') {
             document.body.setAttribute('data-theme', 'dark');
             localStorage.setItem('theme', 'dark');
             dispatch(activeTheme('dark'));
@@ -49,6 +48,9 @@ const NavBar = () => {
         if (savedTheme) {
             document.body.setAttribute('data-theme', savedTheme);
             dispatch(activeTheme(savedTheme));
+        } else {
+            document.body.setAttribute('data-theme', 'light');
+            dispatch(activeTheme('light'));
         }
 
         (window.innerWidth < 768) ?  dispatch(hide()) : dispatch(show());
@@ -98,6 +100,8 @@ const NavBar = () => {
         }).then((result) => {
             if (result.isConfirmed) {
                 dispatch(setUserDetails({ loggedin : 'no', userDetails : {} }));
+                dispatch(activeTheme('light'));    
+                localStorage.setItem('theme', 'light');
                 localStorage.clear();
                 localStorage.setItem('logoutSuccess', 'logout successful!');
                 navigate('/login');
@@ -141,7 +145,7 @@ const NavBar = () => {
                         data-tooltip-offset={15}
                         onClick={toggleTheme}
                         >
-                        <path d="M223.5 32C100 32 0 132.3 0 256S100 480 223.5 480c60.6 0 115.5-24.2 155.8-63.4c5-4.9 6.3-12.5 3.1-18.7s-10.1-9.7-17-8.5c-9.8 1.7-19.8 2.6-30.1 2.6c-96.9 0-175.5-78.8-175.5-176c0-65.8 36-123.1 89.3-153.3c6.1-3.5 9.2-10.5 7.7-17.3s-7.3-11.9-14.3-12.5c-6.3-.5-12.6-.8-19-.8z"/>
+                            <path d="M223.5 32C100 32 0 132.3 0 256S100 480 223.5 480c60.6 0 115.5-24.2 155.8-63.4c5-4.9 6.3-12.5 3.1-18.7s-10.1-9.7-17-8.5c-9.8 1.7-19.8 2.6-30.1 2.6c-96.9 0-175.5-78.8-175.5-176c0-65.8 36-123.1 89.3-153.3c6.1-3.5 9.2-10.5 7.7-17.3s-7.3-11.9-14.3-12.5c-6.3-.5-12.6-.8-19-.8z"/>
                         </svg>
                         :
                         <img 
